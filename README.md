@@ -73,8 +73,7 @@ make clean      never removes art/
 
 `art/` is source, not build output: the dithered images were retouched by
 hand (mouths, eyes, details), and the build never overwrites them. To try
-other dithers without touching `art/`, see `tools/jarvisdither.sh` and
-`tools/mksprite.sh`.
+other dithers without touching `art/`, see [Dithering](#dithering).
 
 `make` takes `BUILD=` and `DIST=` to build somewhere else. Test variants of
 the ST program (most only work under Hatari: NatFeats crash a real machine):
@@ -107,6 +106,55 @@ GEM and resets the machine when the game quits.
 With more memory, the game can also be started from the desktop (Works on my STE with 1.8MB free at startup).
 
 Saves (`MIWA.SAV`, `MIWAnn.LOG`) and persistent data (`MIWA.PER`) are written beside the program.
+
+## Dithering
+
+Every picture has to become pure black and white. `make images` uses
+ffmpeg's Atkinson dither (`paletteuse=dither=atkinson`), which keeps good
+contrast and clean whites. On flat mid-tones, though, it falls into short
+cycles that show as regular diagonal stripes and herringbone patterns: on
+walls, floors and skies, the pattern is more visible than the picture.
+
+`tools/gdither.c` is our own error-diffusion ditherer, written to fix that
+while keeping Atkinson's look:
+
+- **Same tones as ffmpeg's Atkinson.** It works in colour as `paletteuse`
+  does: the error is spread over R, G and B separately, and black or white
+  is chosen by OkLab lightness. With `-i`, each neighbour's share of the
+  error is an integer, as in ffmpeg, so small errors near white are
+  dropped and light areas stay clean. On a test image, the share of white
+  pixels matches ffmpeg's within 0.1%.
+- **Serpentine scanning** (odd rows right to left, with the kernel
+  mirrored) removes the one-way push that picks the diagonal.
+- **Threshold jitter** (`-n 48`) breaks the cycles that remain. It is
+  strongest at mid-grey and fades quickly towards black and white (`-f 3`),
+  so light areas don't pick up dark specks. It is applied only where the
+  image is flat (`-c 16`, fading with the local gradient), so edges, lines
+  and small shapes stay as crisp as plain Atkinson.
+- **Less error passed on** (`-k 0.65` instead of Atkinson's 0.75): more
+  contrast, cleaner whites, denser darks.
+- **An unsharp mask before dithering** (`-u 0.7`), so outlines and small
+  details read better at half scale.
+
+It also has a Jarvis-Judice-Ninke kernel and an experimental
+gradient-steered mode (`-s`); neither is used for the game.
+
+| Atkinson (ffmpeg, `make images`) | gdither (`-K atkinson -k 0.65 -i -n 48 -f 3 -c 16 -u 0.7`) |
+|---|---|
+| ![Atkinson](assets/miwaroom-atkinson.png) | ![gdither](assets/miwaroom-gdither.png) |
+
+The scripts:
+
+| script | what |
+|---|---|
+| `tools/gdither.sh <in> <out.png> [border]` | one image through gdither with the settings above, at its own size (scale a backdrop to 640x360 first); `border` adds the sprite outlines |
+| `tools/mksprite.sh <image> <out.png>` | one sprite from the full-size original: halved as the compiler expects, dithered with gdither (`GDITHER="<options>"` for others), alpha made all-or-nothing, and `mkart.sh`'s outlines added |
+| `tools/jarvisdither.sh <image> <dir>` | one image dithered every way tried (plain Atkinson, each gdither step above, Jarvis, steered), to compare them side by side |
+
+`gdither` is built with `make tools/gdither` (`mksprite.sh` and
+`jarvisdither.sh` do it themselves; run it once before `gdither.sh`). None
+of the scripts writes into `art/`: the chosen result is copied over the art
+file by hand.
 
 ## The supported Ren'Py subset
 
