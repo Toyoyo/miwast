@@ -4,6 +4,8 @@ A ren'py-compatible engine capable enough to port my *Miwa no Utsuroi* kinetic n
 
 Hence the name: *miwast*.
 
+![miwast](/assets/title.png)
+
 It runs in monochrome high resolution (640x400) on a 2MB machine with a hard
 disk, and plays the original soundtrack through the STE's DMA sound.
 
