@@ -1,0 +1,7 @@
+# Host keys for the ST keys the game uses that a PC keyboard lacks
+# (Hatari's own mapping puts Undo on Scroll Lock, Help on Print Screen).
+# Ren'Py's rollback keys, Page Up and Page Down (00keymap.rpy), become
+# Undo (rollback, also at a menu) and Help (rollforward, also at a menu).
+# Format: SDL key name, ST scancode in decimal (keymap-sample.txt).
+PageUp,97
+PageDown,98

@@ -1,0 +1,20 @@
+# Dependencies of generate_beatmap-pentatonique.py
+#
+#   python3 -m venv .venv
+#   .venv/bin/pip install -r requirements.txt
+#   .venv/bin/python generate_beatmap-pentatonique.py my_music.mp3
+#
+# aubio is compiled from source, which needs a C compiler, the Python headers
+# and pkg-config. To read MP3/OGG it must also find FFmpeg's libraries at build
+# time, otherwise it silently builds with WAV support only. On Debian/Ubuntu:
+#
+#   sudo apt install build-essential python3-dev pkg-config \
+#       libavcodec-dev libavformat-dev libavutil-dev libswresample-dev \
+#       libsndfile1-dev libsamplerate0-dev
+#
+# The last aubio release on PyPI (0.4.9, 2019) does not compile against
+# numpy 2 with recent compilers, so aubio is taken from upstream git, pinned to
+# a tested commit.
+
+numpy>=1.21
+aubio @ git+https://github.com/aubio/aubio.git@ad5cf975aed08cc4562dd008cf9f83b12b82ffb8

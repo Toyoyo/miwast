@@ -1,0 +1,67 @@
+# 6 images, 0 characters, 0 tracks, 3 tags, saves b2e050f1
+img 0 S000.MSP       sprite 640x730
+img 1 B001.MBG       bg     640x360
+img 2 S002.MSP       sprite 103x288
+img 3 B003.MBG       bg     640x360
+img 4 S004.MSP       sprite 640x360
+img 5 S005.MSP       sprite 640x360
+     0 scene black
+     4 show tag 0 img 0 at 0,-370 z 0
+    16 with fade 500 0 500
+    26 say - "park, its bottom."
+           + "park, its bottom."
+    32 show tag 0 img 0 at 0,0 z 0
+    44 with move 500 0 0
+    54 say - "park, glided to its top."
+           + "park, glided to its top."
+    60 scene img 1
+    64 show tag 1 img 2 at 268,72 z 0
+    76 with dissolve 500 0 0
+    86 say - "miwaroom, miwa in front."
+           + "miwaroom, miwa in front."
+    92 with none 0 0 0
+   102 scene img 3
+   106 show tag 1 img 2 at 268,72 z 0
+   118 with dissolve 500 0 0
+   128 say - "miwaroom night, miwa still in front."
+           + "miwaroom night, miwa still in front."
+   134 scene black
+   138 show tag 2 img 4 at 0,0 z 0
+   150 show tag 1 img 2 at 268,72 z 1
+   162 with none 0 0 0
+   172 show tag 2 img 4 at 50,0 z 0
+   184 with move 500 0 0
+   194 say - "miwaroom night glided right, miwa in front."
+           + "miwaroom night glided right, miwa in front."
+   200 scene img 1
+   204 say - "miwaroom alone."
+           + "miwaroom alone."
+   210 show tag 1 img 2 at 268,72 z 0
+   222 scene black
+   226 show tag 2 img 5 at 0,0 z 0
+   238 show tag 1 img 2 at 268,72 z 1
+   250 show tag 2 img 5 at 50,0 z 0
+   262 with move 500 0 0
+   272 say - "miwaroom right, miwa in front."
+           + "miwaroom right, miwa in front."
+   278 scene img 1
+   282 show tag 1 img 2 at 268,72 z 0
+   294 with dissolve 500 0 0
+   304 say - "miwaroom, miwa in front."
+           + "miwaroom, miwa in front."
+   310 scene black
+   314 show tag 1 img 2 at 268,72 z 0
+   326 with dissolve 500 0 0
+   336 say - "black, miwa in front."
+           + "black, miwa in front."
+   342 scene img 1
+   346 say - "miwaroom alone."
+           + "miwaroom alone."
+   352 scene black
+   356 show tag 2 img 5 at 0,0 z 0
+   368 with none 0 0 0
+   378 show tag 1 img 2 at 268,72 z 0
+   390 with dissolve 500 0 0
+   400 say - "miwaroom, miwa behind it."
+           + "miwaroom, miwa behind it."
+   406 end

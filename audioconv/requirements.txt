@@ -1,0 +1,6 @@
+# Python dependencies of convert_codec.py (tested with Python 3.13,
+# numpy 2.5.5, librosa 1.0.1, soundfile 0.14.0).
+# Also needed, not from pip: vasmm68k_mot (http://sun.hasenbraten.de/vasm/) in PATH.
+numpy>=2.0
+librosa>=0.10
+soundfile>=0.12
