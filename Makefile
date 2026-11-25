@@ -80,6 +80,11 @@ tools/mwpak: tools/mwpak.c src/mwb.h
 tools/gdither: tools/gdither.c
 	$(HOSTCC) $(HOSTCFLAGS) -o $@ tools/gdither.c -lm
 
+# The desktop icon, to merge into DESKICON.RSC: not part of `make` either.
+#   make tools/mwicon && tools/mwicon icon-st.png MIWA MIWA.RSC
+tools/mwicon: tools/mwicon.c
+	$(HOSTCC) $(HOSTCFLAGS) -o $@ tools/mwicon.c
+
 script: tools/mwc tools/mwdump
 	mkdir -p $(DIST)
 	./tools/mwc $(GAME) $(DIST)/SCRIPT.MWB $(MANIFEST)
@@ -203,5 +208,6 @@ FORCE:
 
 # Never removes art/: that is hand-edited source, not build output.
 clean:
-	rm -f tools/mwc tools/mwdump tools/mwimg tools/mwpak tools/gdither
+	rm -f tools/mwc tools/mwdump tools/mwimg tools/mwpak tools/gdither \
+		tools/mwicon
 	rm -rf $(DIST) $(BUILD)
